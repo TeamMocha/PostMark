@@ -19,7 +19,7 @@ const prompt = require('prompt');
 
 const printFileNameAndJSON = async (filepath) => {
 	const dir = await fs.promises.opendir(filepath);
-	var pattern = new RegExp("postman_collection.json");
+	var pattern = new RegExp("postman_collection.json"); // Search the folder the user specifies
 	var hasFoundFile = false;
 
 	for await (const dirent of dir) {
@@ -34,7 +34,8 @@ const printFileNameAndJSON = async (filepath) => {
 		}
 	}
 
-	if(!hasFoundFile) {
+	if(!hasFoundFile) { // If there are no Postman collections in the stated folder...
+		console.log('No Postman collection was found.')
 		getActualFileNameFromUserAndPrint();
 	}
 }
@@ -72,12 +73,13 @@ function getFilepathFromUserAndPrint() {
 	}
 }
 
+
 function getActualFileNameFromUserAndPrint() {
 	prompt.start();
 	
 	const fileNameSettings =   {
 		name: 'filename',
-		description: 'Enter the file name including path of your Postman Collection',   // Prompt displayed to the user. If not supplied name will be used.
+		description: 'Enter the file name (including path) to your Postman Collection',   // Prompt displayed to the user. If not supplied name will be used.
 		type: 'string',                 														// Specify the type of input to expect.
 		required: true,                        											// If true, value entered must be non-empty.
 	}
@@ -86,7 +88,7 @@ function getActualFileNameFromUserAndPrint() {
 		if (err) { return onErr(err); }
 		console.log('User chose file name:', result.filename);
 
-		printJSONData(result.filename);
+		printJSONData(result.filename).catch(console.error);
 	});
 	
 	function onErr(err) {
@@ -95,7 +97,7 @@ function getActualFileNameFromUserAndPrint() {
 	}
 }
 
-function printJSONData(filepath) {
+function printJSONData(filepath) { // Templating function
 	let input = JSON.parse(fs.readFileSync(filepath));
 
 	console.log('Title:', input.info.name);
