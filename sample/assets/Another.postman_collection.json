@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "ae92663a-6188-422a-af18-84e4b91849e7",
+		"name": "Another Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DELETE /mug/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug/52fec04a-a6af-4849-a85d-ccf481ff73a0",
+					"protocol": "https",
+					"host": [
+						"ghpr8nzqbd",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"mug",
+						"52fec04a-a6af-4849-a85d-ccf481ff73a0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /mug",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"capacity\": 650,\r\n  \"color\": [\"Slate Grey\", \"Blue\", \"Yellow\"],\r\n  \"droppable\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug",
+					"protocol": "https",
+					"host": [
+						"ghpr8nzqbd",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"mug"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "POST /mug - 500 Failed",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"capacity\": 650,\r\n  \"color\": [\"Slate Grey\", \"Blue\", \"Yellow\"],\r\n  \"droppable\": foobar\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug",
+							"protocol": "https",
+							"host": [
+								"ghpr8nzqbd",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"mug"
+							]
+						}
+					},
+					"code": 500,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "PUT /mug/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"capacity\": 240,\r\n  \"color\": [\"Slate Grey\", \"Blue\", \"Yellow\"],\r\n  \"droppable\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug/96a4da43-407c-4c25-99a3-b60e9492c5f0",
+					"protocol": "https",
+					"host": [
+						"ghpr8nzqbd",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"mug",
+						"96a4da43-407c-4c25-99a3-b60e9492c5f0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /mug/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug/",
+					"protocol": "https",
+					"host": [
+						"ghpr8nzqbd",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"mug",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /mug/{id}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug/{id}",
+					"protocol": "https",
+					"host": [
+						"ghpr8nzqbd",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"mug",
+						"{id}"
+					]
+				},
+				"description": "Get a _single_ mug"
+			},
+			"response": [
+				{
+					"name": "GET /mug/{id} - Sample Mug 1",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ghpr8nzqbd.execute-api.us-west-2.amazonaws.com/mug/52fec04a-a6af-4849-a85d-ccf481ff73a0",
+							"protocol": "https",
+							"host": [
+								"ghpr8nzqbd",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"mug",
+								"52fec04a-a6af-4849-a85d-ccf481ff73a0"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 04 Jan 2021 19:25:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "123"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Apigw-Requestid",
+							"value": "Yo3FiiF4vHcEPow="
+						}
+					],
+					"cookie": [],
+					"body": "[{\"capacity\":240,\"id\":\"52fec04a-a6af-4849-a85d-ccf481ff73a0\",\"color\":[\"Slate Grey\",\"Blorange\",\"blellow\"],\"droppable\":true}]"
+				}
+			]
+		}
+	]
+}
