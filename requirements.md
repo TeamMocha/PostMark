@@ -70,4 +70,4 @@ We hope to make PostMark an installable NodeJS package and eventually a serverle
 
 ## Full Whiteboard/UML
 
-![Whiteboard/UML](./assets/PostMarkBoard.jpg)
+![Whiteboard/UML](./assets/PostMark_Board.jpg)
