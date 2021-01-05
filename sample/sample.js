@@ -47,3 +47,12 @@ function getFilepathFromUser() {
 }
 
 getFilepathFromUser();
+
+// require the object params
+const input = require('./assets/Lambda RouterMore.postman_collection.json');
+console.log('Input:', input);
+
+// how do we combine the functionality here
+const input = require('./assets/Lambda RouterMore.postman_collection.json');
+console.log('Input:', input.info.name);
+console.log('Input name:', input.item[0].name);
