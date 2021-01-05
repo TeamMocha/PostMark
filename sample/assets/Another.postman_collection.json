@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "ae92663a-6188-422a-af18-84e4b91849e7",
-		"name": "Lambda Router",
+		"name": "Another Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -226,4 +226,3 @@
 		}
 	]
 }
-
