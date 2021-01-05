@@ -12,11 +12,6 @@
 // Can we merely get the title of the collection and display it to the user?
 // Can we get the names of our routes and display all of them to the user at once?
 
-one.postman_collection.json
-two.postman_collection.json
-three.postman_collection.json
-tacode.json
-
 const fs = require('fs');
 const prompt = require('prompt');
 
