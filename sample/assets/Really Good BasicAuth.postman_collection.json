@@ -10,11 +10,16 @@
 			"name": "GET /v2/encounter-method/:id",
 			"request": {
 				"auth": {
-					"type": "bearer",
-					"bearer": [
+					"type": "basic",
+					"basic": [
 						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3Q3IiwiaWF0IjoxNjA5MDQxMDU0fQ.H1zh8gU8REJiuRE6R7DD3TkkAxIamzj2CQmCKHc5oSA",
+							"key": "password",
+							"value": "badpass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test",
 							"type": "string"
 						}
 					]
@@ -22,7 +27,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://pokeapi.co/api/v2/pokemon/ditto",
+					"raw": "https://pokeapi.co/api/v2/encounter-method/5/?lang=en",
 					"protocol": "https",
 					"host": [
 						"pokeapi",
@@ -31,8 +36,16 @@
 					"path": [
 						"api",
 						"v2",
-						"pokemon",
-						"ditto"
+						"encounter-method",
+						"5",
+						""
+					],
+					"query": [
+						{
+							"key": "lang",
+							"value": "en",
+							"description": "Response language"
+						}
 					]
 				},
 				"description": "This call will get one Pokemon encounter method (Surf)."
