@@ -10,11 +10,12 @@ const input2 = require('../sample/assets/Really Good BasicAuth.postman_collectio
 /////////////////////////////////////////////////////
 // Expecting (Request): input.item[i].request.auth
 const authTpl = (requestAuthObj) => {
+  let authTemplate = '';
   if(!requestAuthObj){
-    return '';
+    return authTemplate;
   }
   
-  let authTemplate = '';
+  
   let authTypeStr = requestAuthObj.type;
   authTemplate += `#### **Authorization Type**: ${authTypeStr}
 `;
@@ -134,7 +135,62 @@ ${urlTpl(requestObj.url)}
 };
 
 
+//////////////////////////////////////////////
+// Header Main Template (Response Template) //
+//////////////////////////////////////////////
+// Expecting (Response): input.item[i].response[i].header
+const headerTpl = (headerArr) => {
+  let headerTemplate = '';
+  
+  if (!headerArr) {
+    return headerTemplate;
+  }
+  
+  for(let i = 0; i < headerArr.length; i++){
+    if(headerArr[i].key === 'Content-Type') {
+      const headerKeyStr = `>- Key: ${headerArr[i].key}`;
+      const headerValueStr = `>- Value: ${headerArr[i].value}`;
+      headerTemplate += 
+`${headerKeyStr}
+${headerValueStr}
+`;
+    } 
+  }
+  return headerTemplate;
+};
 
+/////////////////////////////////////////////
+// Response Main Template (Route Template) //
+/////////////////////////////////////////////
+// Expecting (Route): input.item[i].response
+const responseTpl = (responseArr) => {
+  let responseTemplate = '';
+  for(let i = 0; i < responseArr.length; i++) {
+
+    var statusString = '';
+    if (responseArr[i].status) {
+      statusString = responseArr[i].status;
+    }
+
+    // console.log("Response URL: " + responseArr[i].originalRequest.url)
+    responseTemplate +=
+`---
+### **Status Code**: ${responseArr[i].code} (${statusString})
+#### ${responseArr[i].name}
+**Test URL**: [${responseArr[i].originalRequest.url.raw}](${responseArr[i].originalRequest.url.raw})
+#### **Method**: ${responseArr[i].originalRequest.method}
+  
+${urlTpl(responseArr[i].originalRequest.url)}
+${headerTpl(responseArr[i].header)}
+#### **Body**
+\`\`\`${responseArr[i]._postman_previewlanguage}
+${responseArr[i].body}
+\`\`\`
+`;
+  }
+
+  return responseTemplate;
+};
 
 
 describe('Postmark Routes', () => {
@@ -155,7 +211,7 @@ describe('Postmark Routes', () => {
   it('urlTpl', () => {
     let badOutput = '';
     let goodOutput = 
-    `>- Host: https://pokeapi.co  
+`>- Host: https://pokeapi.co  
 >- Path: /api/v2/encounter-method/5/  
 #### **Query Parameter(s)**
 ##### Parameter (Response language)
@@ -165,5 +221,169 @@ describe('Postmark Routes', () => {
 `;
     expect(urlTpl(input1.item[0].request.url)).toEqual(badOutput);
     expect(urlTpl(input2.item[0].request.url)).toEqual(goodOutput);
+  });
+
+  it('requestTpl', () => {
+    let badOutput =
+`**Description**: 
+
+**Test URL**: []()
+
+### Request
+
+
+
+#### **Method**: GET
+
+
+`;
+    let goodOutput = 
+`**Description**: This call will get one Pokemon encounter method (Surf).
+
+**Test URL**: [https://pokeapi.co/api/v2/encounter-method/5/?lang=en](https://pokeapi.co/api/v2/encounter-method/5/?lang=en)
+
+### Request
+
+#### **Authorization Type**: basic
+>- Key: password
+>- Value: [Hidden]
+>- Type: string
+>- Key: username
+>- Value: [Hidden]
+>- Type: string
+
+
+#### **Method**: GET
+
+>- Host: https://pokeapi.co  
+>- Path: /api/v2/encounter-method/5/  
+#### **Query Parameter(s)**
+##### Parameter (Response language)
+>- key: lang  
+>- value: en  
+
+
+`;
+    expect(requestTpl(input1.item[0].request)).toEqual(badOutput);
+    expect(requestTpl(input2.item[0].request)).toEqual(goodOutput);
+  });
+
+  it('headerTpl', () => {
+    let headerInput;
+    if(!input1.item[0].response) {
+      headerInput = [];
+    }
+    console.log(headerInput); 
+    
+    expect(headerTpl(headerInput)).toEqual("");
+  });
+
+  it('responseTpl', () => {
+    let goodResponse = `---
+### **Status Code**: 404 (Not Found)
+#### GET /v2/encounter-method/685/?lang=en
+**Test URL**: [https://pokeapi.co/api/v2/encounter-method/685/?lang=en](https://pokeapi.co/api/v2/encounter-method/685/?lang=en)
+#### **Method**: GET
+  
+>- Host: https://pokeapi.co  
+>- Path: /api/v2/encounter-method/685/  
+#### **Query Parameter(s)**
+##### Parameter (Response language)
+>- key: lang  
+>- value: en  
+
+
+>- Key: Content-Type
+>- Value: text/plain; charset=utf-8
+
+#### **Body**
+\`\`\`plain
+Not Found
+\`\`\`### Response
+
+\`\`\`
+---
+### **Status Code**: 200 (OK)
+#### GET /v2/encounter-method/5/?lang=en
+**Test URL**: [https://pokeapi.co/api/v2/encounter-method/5/?lang=en](https://pokeapi.co/api/v2/encounter-method/5/?lang=en)
+#### **Method**: GET
+
+
+  
+>- Host: https://pokeapi.co  
+>- Path: /api/v2/encounter-method/5/  
+
+#### **Query Parameter(s)**
+##### Parameter (Response language)
+>- key: lang  
+>- value: en  
+
+
+>- Key: Content-Type
+>- Value: application/json; charset=utf-8
+
+#### **Body**
+\`\`\`json
+{
+    "id": 5,
+    "name": "surf",
+    "names": [
+        {
+            "language": {
+                "name": "de",
+                "url": "https://pokeapi.co/api/v2/language/6/"
+            },
+            "name": "Surfen"
+        },
+        {
+            "language": {
+                "name": "en",
+                "url": "https://pokeapi.co/api/v2/language/9/"
+            },
+            "name": "Surfing"
+        }
+    ],
+    "order": 14
+}
+\`\`\`### Response
+\`\`\`
+---
+### **Status Code**: 400 (Bad Request)
+#### GET /v2/encounter-method/(%)/?lang=en
+**Test URL**: [https://pokeapi.co/api/v2/encounter-method/(%)/?lang=en](https://pokeapi.co/api/v2/encounter-method/(%)/?lang=en)
+#### **Method**: GET
+
+
+  
+>- Host: https://pokeapi.co  
+>- Path: /api/v2/encounter-method/(%)/  
+
+#### **Query Parameter(s)**
+##### Parameter (Response language)
+>- key: lang  
+>- value: en  
+
+
+>- Key: Content-Type
+>- Value: text/html
+
+#### **Body**
+\`\`\`html
+<html>
+    <head>
+        <title>400 Bad Request</title>
+    </head>
+    <body>
+        <center>
+            <h1>400 Bad Request</h1>
+        </center>
+        <hr>
+        <center>cloudflare</center>
+    </body>
+</html>
+\`\`\`
+`;
+      expect(responseTpl(input1.item[0].response)).toEqual('');
+      expect(responseTpl(input2.item[0].response)).toEqual(goodResponse);
   });
 });
