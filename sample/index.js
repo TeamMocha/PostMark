@@ -1,5 +1,20 @@
 'use strict';
 
+// Bringing in the Postman Collection (Move this to TOF before committing!)
+// Eventually we will merge this code with our working 'fs' and 'prompt' code
+let input;
+let filepath;
+const doPostMark = (filepathInput) => {
+  if(!filepathInput){
+    filepath = './assets/Just Okay.postman_collection.json';
+    input = require(filepath);
+  } else {
+    filepath = filepathInput;
+    input = require(filepath);
+  }
+  return everythingTpl(input);
+};
+
 // Setting variables for adding different kinds of line spacing in Markdown
 // These are set here to avoid odd indenting later.
 let emptyLine = `
@@ -54,10 +69,6 @@ const authTpl = (requestAuthObj) => {
 const urlHostNameStr = (urlHostArray) => {
   // Start our blank hostName string
   let hostName = '';
-  // If bad data was passed in, return an empty string
-  if(!urlHostArray){
-    return hostName;
-  }
   // Iterate over the urlHostArray and reconstruct the host name
   for (let i = 0; i < urlHostArray.length; i++) {
     if (i === urlHostArray.length - 1) {
@@ -77,10 +88,6 @@ const urlHostNameStr = (urlHostArray) => {
 const urlHostPathStr = (urlPathArray) => {
   // Start our blank hostPath string
   let hostPath = '';
-  // If bad data was passed in, return an empty string
-  if(!urlPathArray){
-    return hostPath;
-  }
   // Iterate over the urlPathArray and reconstruct the URL path
   for (let i = 0; i < urlPathArray.length; i++) {
     hostPath += `/${urlPathArray[i]}`; // The final item in this array might be '', creating a trailing '/' 
@@ -96,10 +103,6 @@ const urlHostPathStr = (urlPathArray) => {
 const urlQueryParamsTpl = (urlQueryArray) => {
   // Start our blank queryParamsTemplate
   let queryParamsTemplate = '';
-  // If bad data was passed in, return an empty string
-  if(!urlQueryArray){
-    return queryParamsTemplate;
-  }
   // Iterate over the urlQueryArray and reconstruct each query key/value pair
   for (let i = 0; i < urlQueryArray.length; i++) {
     // Add the parameter header with the type of parameter to the query parameters template
@@ -157,11 +160,6 @@ const urlTpl = (urlObj) => {
 const requestTpl = (requestObj) => {
   // Start our blank requestTemplate
   let requestTemplate = '';
-  // If bad data was passed in, return an empty string
-  if (!requestObj) {
-    // But, what we really should do is reject the entire request, since it isn't a valid collection
-    return requestTemplate;
-  }
   // If the user didn't include a description, we will leave a place for them to enter one
   let requestDescStr = '';
   if(requestObj.description){
@@ -347,13 +345,4 @@ const everythingTpl = (input) => {
   return everythingTemplate;
 };
 
-// Bringing in the Postman Collection (Move this to TOF before committing!)
-// Eventually we will merge this code with our working 'fs' and 'prompt' code
-let filepath = './assets/Just Okay.postman_collection.json';
-let input = require(filepath);
-
-// Let out output variable kick off all of the templating functions.
-let output = everythingTpl(input);
-
-// Finally, return everything!
-console.log(output);
+module.exports =  { authTpl, urlHostNameStr, urlHostPathStr, urlQueryParamsTpl, urlTpl, requestTpl, headerTpl, responseTpl, routesTpl, everythingTpl, doPostMark };
