@@ -1,5 +1,13 @@
 'use strict';
 
+// Setting variables for adding different kinds of line spacing in Markdown
+// These are set here to avoid odd indenting later.
+let emptyLine = `
+
+`;
+let newLine = `
+`;
+
 /////////////////////////////////////////////////////
 // Authentication Main Template (Request Template) //
 /////////////////////////////////////////////////////
@@ -23,19 +31,15 @@ const authTpl = (requestAuthObj) => {
     const authValueStr = `>- Value: [Hidden]`; // We strip this information out to protect our users
     const authTypeTypeStr = `>- Type: ${authTypeArr[i].type}`;
     // (Add a space between lines)
-    authTemplate += `
-
-`;
+    authTemplate += emptyLine;
     // Add the auth 'key' string to the template (the two spaces at the end are necessary)
     authTemplate += `${authKeyStr}  `;
     // (Add a new line between key/value/type sets)
-    authTemplate += `
-`;
+    authTemplate += newLine;
     // Add the auth 'value' string to the template (the two spaces at the end are necessary)
     authTemplate += `${authValueStr}  `;
     // (Add a new line between key/value/type sets)
-    authTemplate += `
-`;
+    authTemplate += newLine;
     // Add the auth 'value' string to the template (since this is the last one there aren't two spaces)
     authTemplate += `${authTypeTypeStr}`;
   }
@@ -101,14 +105,11 @@ const urlQueryParamsTpl = (urlQueryArray) => {
     // Add the parameter header with the type of parameter to the query parameters template
     queryParamsTemplate += `##### Parameter (${urlQueryArray[i].description})`;
     // (Add a space between lines)
-    queryParamsTemplate += `
-
-`;
+    queryParamsTemplate += emptyLine;
     // Add the param 'key' string to the template (the two spaces at the end are necessary)
     queryParamsTemplate += `>- key: ${urlQueryArray[i].key}  `;
     // (Add a new line between key/value pairs)
-    queryParamsTemplate += `
-`;
+    queryParamsTemplate += newLine;
     // Add the param 'value' string to the template (the two spaces at the end are necessary)
     queryParamsTemplate += `>- value: ${urlQueryArray[i].value}  `;
   }
@@ -131,22 +132,17 @@ const urlTpl = (urlObj) => {
   // Add the protocol and host to the URL template
   urlTemplate += `>- Host: ${urlObj.protocol}://${urlHostNameStr(urlObj.host)}  `;
   // (Add a new line between key/value/type sets)
-  urlTemplate += `
-`;
+  urlTemplate += newLine;
   // Add the path to the URL template
   urlTemplate += `>- Path: ${urlHostPathStr(urlObj.path)}  `;
-  // (Add a space between lines)
-  urlTemplate += `
-
-`;
   // If the URL has query parameters...
   if (urlObj.query) {
+    // (Add a space between the Host/Path and Query Parameters)
+    urlTemplate += emptyLine;
     // ...add a header to the query parameters...
     urlTemplate += `#### **Query Parameter(s)**`;
     // (Add a space between lines)
-    urlTemplate += `
-
-`;
+    urlTemplate += emptyLine;
     // ...and add the finalized result of the query parameters template
     urlTemplate += urlQueryParamsTpl(urlObj.query);
   }
@@ -166,7 +162,6 @@ const requestTpl = (requestObj) => {
     // But, what we really should do is reject the entire request, since it isn't a valid collection
     return requestTemplate;
   }
-  
   // If the user didn't include a description, we will leave a place for them to enter one
   let requestDescStr = '';
   if(requestObj.description){
@@ -175,34 +170,30 @@ const requestTpl = (requestObj) => {
   // Add the description to the request template
   requestTemplate += `**Description**:${requestDescStr}`;
   // (Add a space between lines)
-  requestTemplate += `
-
-`;
+  requestTemplate += emptyLine;
   // Add the test URL to the request template
   requestTemplate += `**Test URL**: [${requestObj.url.raw}](${requestObj.url.raw})`;
   // (Add a space between lines)
-  requestTemplate += `
-
-`;
+  requestTemplate += emptyLine;
   // Add the request header to the request template
   requestTemplate += `### Request`;
   // (Add a space between lines)
-  requestTemplate += `
-
-  `;
+  requestTemplate += emptyLine;
   // Add the request method to the request template
   requestTemplate += `#### **Method**: ${requestObj.method}`;
   // (Add a space between lines)
-  requestTemplate += `
-
-  `;
+  requestTemplate += emptyLine;
+  if (requestObj.url.raw) { 
+    requestTemplate += `${urlTpl(requestObj.url)}`; 
+    // (Add a space between lines)
+    requestTemplate += emptyLine;
+  }
   // If the request used authorizarion methods add the finalized Auth template to the request template
-  if (requestObj.auth) { requestTemplate += `${authTpl(requestObj.auth)}`; }
-  // (Add a space between lines)
-  requestTemplate += `
-
-`;
-  if (!requestObj.url.raw) { requestTemplate += `${urlTpl(requestObj.url)}`; }
+  if (requestObj.auth) { 
+    requestTemplate += `${authTpl(requestObj.auth)}`; 
+    // (Add a space between lines)
+    requestTemplate += emptyLine;
+  }
   // Return the requestTemplate to the caller
   return requestTemplate;
 };
@@ -224,16 +215,13 @@ const headerTpl = (headerArr) => {
       const headerKeyStr = `>- Key: ${headerArr[i].key}`;
       const headerValueStr = `>- Value: ${headerArr[i].value}`;
       // Add the parameter header with the type of parameter to the query parameters template
-      headerTemplate += `##### Header(s)`;
+      headerTemplate += `#### **Header(s)**`;
       // (Add a space between lines)
-      headerTemplate += `
-
-`;
+      headerTemplate += emptyLine;
       // Add the header 'key' string to the template (the two spaces at the end are necessary)
       headerTemplate += `${headerKeyStr}  `;
       // (Add a new line between key/value sets)
-      headerTemplate += `
-`;
+      headerTemplate += newLine;
       // Add the header 'value' string to the template (the two spaces at the end are necessary)
       headerTemplate += `${headerValueStr}  `;
     } 
@@ -249,6 +237,10 @@ const headerTpl = (headerArr) => {
 const responseTpl = (responseArr) => {
   // Start our blank routeTemplate
   let responseTemplate = '';
+  // Add a header to the response template
+  responseTemplate += `### Response(s)`;
+  // (Add a space between lines)
+  responseTemplate += emptyLine;
   // Iterate over all of the responses and add their contents to the routeTemplate
   for(let i = 0; i < responseArr.length; i++) {
     // Create an empty string and store the response status (if it exists)
@@ -256,75 +248,45 @@ const responseTpl = (responseArr) => {
     if (responseArr[i].status) {
       responseStatusStr = ` (${responseArr[i].status})`;
     }
-    // Add a header to the response template
-    responseTemplate += `### Response(s)`;
-    // (Add a space between lines)
-    responseTemplate += `
-
-`;
-    // Add a horizontal line to the response template
-    responseTemplate += `---`;
-    // (Add a space between lines)
-    responseTemplate += `
-
-`;
     // Add the status code and status type (Like "404 Not Found" or "200 Ok") to the response template
     responseTemplate += `### **Status Code**: ${responseArr[i].code}${responseStatusStr}`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add the name given to the response in the response template
     responseTemplate += `#### ${responseArr[i].name}`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add the test URL to the response template
     responseTemplate += `**Test URL**: [${responseArr[i].originalRequest.url.raw}](${responseArr[i].originalRequest.url.raw})`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add the method header to the response template
     responseTemplate += `#### **Method**: ${responseArr[i].originalRequest.method}`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add the finalized url template to the response template
     responseTemplate += `${urlTpl(responseArr[i].originalRequest.url)}`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add the finalized header template to the response template
     responseTemplate += `${headerTpl(responseArr[i].header)}`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add the body header to the response template
     responseTemplate += `#### **Body**`;
     // (Add a space between lines)
-    responseTemplate += `
-
-`;
+    responseTemplate += emptyLine;
     // Add our code block representing the body (and formatting language) of the response to the response template
     // This uses backticks that need to escaped so they'll be included in the output
     responseTemplate += `\`\`\`${responseArr[i]._postman_previewlanguage}`;
     // (Add a new line after the start of the code block)
-    responseTemplate += `
-`;
+    responseTemplate += newLine;
     responseTemplate += `${responseArr[i].body}`;
     // (Add a new line after the start of the code block)
-    responseTemplate += `
-`;
+    responseTemplate += newLine;
     responseTemplate += `\`\`\``;
     // (Finally add a space between responses)
-    responseTemplate += `
-  
-`;
+    responseTemplate += emptyLine;
   }
   // Return the responseTemplate to the caller
   return responseTemplate;
@@ -340,17 +302,19 @@ const routesTpl = (routeArr) => {
   // Add the header to the route template
   routesTemplate += `## Route(s)`;
   // (Add a space between lines)
-  routesTemplate += `
-
-`;
+  routesTemplate += emptyLine;
   // We need to iterate over every route and find the Request and Response(s)
-  for(let i = 0; i < routeArr.length; i++) {
+  for (let i = 0; i < routeArr.length; i++) {
+    // Add a horizontal line to the response template
+    routesTemplate += `---`;
+    // (Add a space between lines)
+    routesTemplate += emptyLine;
     // Add the finalized request template to the route template
     routesTemplate += `${requestTpl(routeArr[i].request)}`;
     // Set a variable so we can use shorthand to represent the route's response(s)
     let responseArr = routeArr[i].response;
     // If there is a response add the finalized response template to the routes template 
-    if(responseArr) { routesTemplate += `${responseTpl(responseArr)}`; }
+    if (responseArr && responseArr.length > 0) { routesTemplate += `${responseTpl(responseArr)}`; }
   }
   // Return the routesTemplate to the caller
   return routesTemplate;
@@ -359,28 +323,24 @@ const routesTpl = (routeArr) => {
 /////////////////////////
 // Everything Template //
 /////////////////////////
-// Expecting (): input
+// Expecting (collection): input
 const everythingTpl = (input) => {
   // Start our blank everythingTemplate
   let everythingTemplate = '';
   // Add the collection name to the everything template
   everythingTemplate += `## ${input.info.name}`;
   // (Add a space between lines)
-  everythingTemplate += `
-
-`;
+  everythingTemplate += emptyLine;
   // Add the collection description (if one was given) to the everything template
-  if (input.info.description) { everythingTemplate += `**Description**: ${input.info.description}`; }
-  // (Add a space between lines)
-  everythingTemplate += `
-
-`;
+  if (input.info.description) { 
+    everythingTemplate += `**Description**: ${input.info.description}`; 
+    // (Add a space between lines)
+    everythingTemplate += emptyLine;
+  }
   // Add a link to download the collection to the everything template
   everythingTemplate += `[Postman Collection JSON](<${filepath}>)`;
   // (Add a space between lines)
-  everythingTemplate += `
-
-`;
+  everythingTemplate += emptyLine;
   // Add the collection routes to the everything template
   everythingTemplate += `${routesTpl(input.item)}`;
   // Return the everythingTemplate to the caller
@@ -389,12 +349,11 @@ const everythingTpl = (input) => {
 
 // Bringing in the Postman Collection (Move this to TOF before committing!)
 // Eventually we will merge this code with our working 'fs' and 'prompt' code
-let filepath = './assets/Really Good BasicAuth.postman_collection.json';
-let input = require(filepath); // JSON.parse(event.body); // filename
+let filepath = './assets/Just Okay.postman_collection.json';
+let input = require(filepath);
 
 // Let out output variable kick off all of the templating functions.
 let output = everythingTpl(input);
 
 // Finally, return everything!
 console.log(output);
-
