@@ -3,7 +3,7 @@
 const { it, expect } = require('@jest/globals');
 const input1 = require('../../sample/assets/Really Bad.postman_collection.json');
 const input2 = require('../../sample/assets/Really Good BasicAuth.postman_collection.json');
-const  { authTpl, urlHostNameStr, urlHostPathStr, urlQueryParamsTpl, urlTpl, requestTpl, headerTpl, responseTpl, routesTpl, everythingTpl, doPostMark } = require('../index');
+const  { authTpl, urlHostNameStr, urlHostPathStr, urlQueryParamsTpl, urlTpl, requestTpl, headerTpl, responseTpl, routesTpl, everythingTpl, doPostMark } = require('../sampleIndex');
 
 describe('Postmark Routes', () => {
   it('authTemplate', () => {
