@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Another Collection
 **Description**: undefined
 [Postman Collection JSON](<./assets/Another.postman_collection.json>)
@@ -26,3 +27,12 @@ undefined
 undefined
 
 
+=======
+## Pokemon Test
+
+**Description**: This is a sample collection.
+
+[Postman Collection JSON](<./assets/Pokemon Test.postman_collection.json>)
+
+## Route(s)
+>>>>>>> 13754ef7ae9b4a237090eebb426902e521d0ac30
