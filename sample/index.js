@@ -189,20 +189,20 @@ const requestTpl = (requestObj) => {
   // (Add a space between lines)
   requestTemplate += `
 
-  `;
+`;
   // Add the request method to the request template
   requestTemplate += `#### **Method**: ${requestObj.method}`;
   // (Add a space between lines)
   requestTemplate += `
 
-  `;
+`;
   // If the request used authorizarion methods add the finalized Auth template to the request template
   if (requestObj.auth) { requestTemplate += `${authTpl(requestObj.auth)}`; }
   // (Add a space between lines)
   requestTemplate += `
 
 `;
-  if (!requestObj.url.raw) { requestTemplate += `${urlTpl(requestObj.url)}`; }
+  if (requestObj.url.raw) { requestTemplate += `${urlTpl(requestObj.url)}`; }
   // Return the requestTemplate to the caller
   return requestTemplate;
 };
@@ -249,6 +249,12 @@ const headerTpl = (headerArr) => {
 const responseTpl = (responseArr) => {
   // Start our blank routeTemplate
   let responseTemplate = '';
+  // Add a header to the response template
+  responseTemplate += `### Response(s)`;
+  // (Add a space between lines)
+  responseTemplate += `
+
+`;
   // Iterate over all of the responses and add their contents to the routeTemplate
   for(let i = 0; i < responseArr.length; i++) {
     // Create an empty string and store the response status (if it exists)
@@ -256,12 +262,6 @@ const responseTpl = (responseArr) => {
     if (responseArr[i].status) {
       responseStatusStr = ` (${responseArr[i].status})`;
     }
-    // Add a header to the response template
-    responseTemplate += `### Response(s)`;
-    // (Add a space between lines)
-    responseTemplate += `
-
-`;
     // Add a horizontal line to the response template
     responseTemplate += `---`;
     // (Add a space between lines)
@@ -350,7 +350,7 @@ const routesTpl = (routeArr) => {
     // Set a variable so we can use shorthand to represent the route's response(s)
     let responseArr = routeArr[i].response;
     // If there is a response add the finalized response template to the routes template 
-    if(responseArr) { routesTemplate += `${responseTpl(responseArr)}`; }
+    if(responseArr.name) { routesTemplate += `${responseTpl(responseArr)}`; }
   }
   // Return the routesTemplate to the caller
   return routesTemplate;
@@ -396,5 +396,6 @@ let input = require(filepath); // JSON.parse(event.body); // filename
 let output = everythingTpl(input);
 
 // Finally, return everything!
-console.log(output);
+// console.log(output);
 
+module.exports =  { authTpl, urlHostNameStr, urlHostPathStr, urlQueryParamsTpl, urlTpl, requestTpl, headerTpl, responseTpl, routesTpl, everythingTpl };
