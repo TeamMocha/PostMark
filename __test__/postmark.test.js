@@ -1,0 +1,169 @@
+'use strict';
+
+const { it, expect } = require('@jest/globals');
+const input1 = require('../sample/assets/Really Bad.postman_collection.json');
+const input2 = require('../sample/assets/Really Good BasicAuth.postman_collection.json');
+
+
+/////////////////////////////////////////////////////
+// Authentication Main Template (Request Template) //
+/////////////////////////////////////////////////////
+// Expecting (Request): input.item[i].request.auth
+const authTpl = (requestAuthObj) => {
+  if(!requestAuthObj){
+    return '';
+  }
+  
+  let authTemplate = '';
+  let authTypeStr = requestAuthObj.type;
+  authTemplate += `#### **Authorization Type**: ${authTypeStr}
+`;
+  let authTypeArr = requestAuthObj[authTypeStr];
+  for(let i = 0; i < authTypeArr.length; i++) {
+    const authKeyStr = `>- Key: ${authTypeArr[i].key}`;
+    const authValueStr = `>- Value: [Hidden]`;   
+    const authTypeTypeStr = `>- Type: ${authTypeArr[i].type}`;
+    authTemplate += 
+`${authKeyStr}
+${authValueStr}
+${authTypeTypeStr}
+`;
+  }
+  return authTemplate;
+};
+///////////////////////////////////////////
+// URL Host Name Template (Url Template) //
+///////////////////////////////////////////
+// Expecting (Url): input.item[i].request.url.host OR input.item[i].response[i].originalRequest.url.host
+const urlHostNameStr = (urlHostArray) => {
+  let hostName = '';
+  for (let i = 0; i < urlHostArray.length; i++) {
+    if (i === urlHostArray.length - 1) {
+      hostName += `${urlHostArray[i]}`;
+    } else {
+      hostName += `${urlHostArray[i]}.`;
+    }
+  }
+  return hostName; // Just a string representing the url host
+};
+
+///////////////////////////////////////////
+// URL Host Path Template (Url Template) //
+///////////////////////////////////////////
+// Expecting (Url): input.item[i].request.url.path OR input.item[i].response[i].originalRequest.url.path
+const urlHostPathStr = (urlPathArray) => {
+  let hostPath = '';
+  for (let i = 0; i < urlPathArray.length; i++) {
+    hostPath += `/${urlPathArray[i]}`;
+  }
+  return hostPath; // Just a string representing the url path
+};
+
+///////////////////////////////////////////////////
+// URL Query Parameters Template (Url Template)  //
+///////////////////////////////////////////////////
+// Expecting (Url): input.item[i].request.url.query OR input.item[i].response[i].originalRequest.url.query
+const urlQueryParamsTpl = (urlQueryArray) => {
+  if(!urlQueryArray){
+    return '';
+  }
+  let hostParams = '';
+  for (let i = 0; i < urlQueryArray.length; i++) {
+    hostParams +=
+`##### Parameter (${urlQueryArray[i].description})
+>- key: ${urlQueryArray[i].key}  
+>- value: ${urlQueryArray[i].value}  
+`;
+  }
+  return hostParams; // A template for all query parameters 
+};
+
+//////////////////////////////////////////////////////
+// URL Main Template (Request & Response Templates) //
+//////////////////////////////////////////////////////
+// Expecting (Request): input.item[i].request.url
+// Expecting (Response): input.item[i].response[i].orginalRequest.url
+const urlTpl = (urlObj) => {
+  if(!urlObj.raw){
+    return '';
+  }
+  var queryString = '';
+  if (urlObj.query) {
+    queryString = urlQueryParamsTpl(urlObj.query);
+  }
+
+  let urlTemplate =
+`>- Host: ${urlObj.protocol}://${urlHostNameStr(urlObj.host)}  
+>- Path: ${urlHostPathStr(urlObj.path)}  
+#### **Query Parameter(s)**
+${queryString}
+`;
+  return urlTemplate;
+};
+
+////////////////////////////////////////////
+// Request Main Template (Route Template) //
+////////////////////////////////////////////
+// Expecting (Route): input.item[i].request or input.item[i].response[i].originalRequest
+const requestTpl = (requestObj) => {
+  // console.log('++++++++++', requestObj);
+  if(!requestObj.description){
+    requestObj.description = '';
+  }
+
+  var authString = '';
+  if (requestObj.auth) {
+    authString = authTpl(requestObj.auth);
+  }
+
+  let requestTemplate =
+`**Description**: ${requestObj.description}
+
+**Test URL**: [${requestObj.url.raw}](${requestObj.url.raw})
+
+### Request
+
+${authString}
+
+#### **Method**: ${requestObj.method}
+
+${urlTpl(requestObj.url)}
+`;
+
+  return requestTemplate;
+};
+
+
+
+
+
+describe('Postmark Routes', () => {
+  it('authTemplate', () => {
+    let badOutput = '';
+    let goodOutput = `#### **Authorization Type**: basic
+>- Key: password
+>- Value: [Hidden]
+>- Type: string
+>- Key: username
+>- Value: [Hidden]
+>- Type: string
+`;
+    expect(authTpl(input1.item[0].request.auth)).toEqual(badOutput);
+    expect(authTpl(input2.item[0].request.auth)).toEqual(goodOutput);
+    
+  });
+  it('urlTpl', () => {
+    let badOutput = '';
+    let goodOutput = 
+    `>- Host: https://pokeapi.co  
+>- Path: /api/v2/encounter-method/5/  
+#### **Query Parameter(s)**
+##### Parameter (Response language)
+>- key: lang  
+>- value: en  
+
+`;
+    expect(urlTpl(input1.item[0].request.url)).toEqual(badOutput);
+    expect(urlTpl(input2.item[0].request.url)).toEqual(goodOutput);
+  });
+});
