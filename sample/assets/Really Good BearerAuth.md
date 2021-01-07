@@ -2,9 +2,11 @@
 
 **Description**: This is a sample collection.
 
-[Postman Collection JSON](<./assets/Really Good BasicAuth.postman_collection.json>)
+[Postman Collection JSON](<./assets/Really Good BearerAuth.postman_collection.json>)
 
 ## Route(s)
+
+---
 
 **Description**: This call will get one Pokemon encounter method (Surf).
 
@@ -12,21 +14,25 @@
 
 ### Request
 
-  #### **Method**: GET
+#### **Method**: GET
 
-  #### **Authorization Type**: basic
+>- Host: https://pokeapi.co  
+>- Path: /api/v2/encounter-method/5/  
 
->- Key: password  
->- Value: [Hidden]  
->- Type: string
+#### **Query Parameter(s)**
 
->- Key: username  
+##### Parameter (Response language)
+
+>- key: lang  
+>- value: en  
+
+#### **Authorization Type**: bearer
+
+>- Key: token  
 >- Value: [Hidden]  
 >- Type: string
 
 ### Response(s)
-
----
 
 ### **Status Code**: 404 (Not Found)
 
@@ -46,7 +52,7 @@
 >- key: lang  
 >- value: en  
 
-##### Header(s)
+#### **Header(s)**
 
 >- Key: Content-Type  
 >- Value: text/plain; charset=utf-8  
@@ -56,10 +62,6 @@
 ```plain
 Not Found
 ```
-  
-### Response(s)
-
----
 
 ### **Status Code**: 200 (OK)
 
@@ -79,7 +81,7 @@ Not Found
 >- key: lang  
 >- value: en  
 
-##### Header(s)
+#### **Header(s)**
 
 >- Key: Content-Type  
 >- Value: application/json; charset=utf-8  
@@ -109,10 +111,6 @@ Not Found
     "order": 14
 }
 ```
-  
-### Response(s)
-
----
 
 ### **Status Code**: 400 (Bad Request)
 
@@ -132,7 +130,7 @@ Not Found
 >- key: lang  
 >- value: en  
 
-##### Header(s)
+#### **Header(s)**
 
 >- Key: Content-Type  
 >- Value: text/html  
