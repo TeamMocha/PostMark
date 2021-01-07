@@ -2,7 +2,7 @@
   "name": "mochasamples",
   "version": "1.0.0",
   "description": "Samples",
-  "main": "index.js",
+  "main": "sample.js",
   "scripts": {
     "test": "jest --coverage"
   },
