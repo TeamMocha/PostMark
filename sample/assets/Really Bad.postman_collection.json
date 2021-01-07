@@ -1,0 +1,20 @@
+{
+	"info": {
+		"_postman_id": "20e16fb4-696e-4a06-a0ff-48ac082b11e6",
+		"name": "Really Bad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
