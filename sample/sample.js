@@ -18,91 +18,91 @@ const fs = require('fs');
 const prompt = require('prompt');
 
 const printFileNameAndJSON = async (filepath) => {
-	const dir = await fs.promises.opendir(filepath);
-	var pattern = new RegExp("postman_collection.json"); // Search the folder the user specifies
-	var hasFoundFile = false;
+  const dir = await fs.promises.opendir(filepath);
+  var pattern = new RegExp('postman_collection.json'); // Search the folder the user specifies
+  var hasFoundFile = false;
 
-	for await (const dirent of dir) {
-		var filename = dirent.name;
-		var result = pattern.test(filename);
-		if (result) {
-			hasFoundFile = true;
-			console.log(`Filename of ${filename} DOES match!`);
-			printJSONData(filepath + '/' + filename);
-		} else {
-			// console.log(`Filename of ${filename} DOES NOT match!`);
-		}
-	}
+  for await (const dirent of dir) {
+    var filename = dirent.name;
+    var result = pattern.test(filename);
+    if (result) {
+      hasFoundFile = true;
+      console.log(`Filename of ${filename} DOES match!`);
+      printJSONData(filepath + '/' + filename);
+    } else {
+      // console.log(`Filename of ${filename} DOES NOT match!`);
+    }
+  }
 
-	if(!hasFoundFile) { // If there are no Postman collections in the stated folder...
-		console.log('No Postman collection was found.')
-		getActualFileNameFromUserAndPrint();
-	}
-}
+  if(!hasFoundFile) { // If there are no Postman collections in the stated folder...
+    console.log('No Postman collection was found.');
+    getActualFileNameFromUserAndPrint();
+  }
+};
 
 // The user passed in a file as an argument from the CLI
 if (process.argv[2]) {
-	let filepath = process.argv[2];
-	console.log('User chose file path:', filepath);
-	printFileNameAndJSON(filepath).catch(console.error);
+  let filepath = process.argv[2];
+  console.log('User chose file path:', filepath);
+  printFileNameAndJSON(filepath).catch(console.error);
 } else {
-	getFilepathFromUserAndPrint();
+  getFilepathFromUserAndPrint();
 }
     
 function getFilepathFromUserAndPrint() {
-	prompt.start();
+  prompt.start();
 	
-	const filepathSettings =   {
-		name: 'filepath',
-		description: 'Enter the path to your Postman Collection',   // Prompt displayed to the user. If not supplied name will be used.
-		type: 'string',                 														// Specify the type of input to expect.
-		default: './assets',             														// Default value to use if no value is entered.
-		required: true,                        											// If true, value entered must be non-empty.
-	}
+  const filepathSettings =   {
+    name: 'filepath',
+    description: 'Enter the path to your Postman Collection',   // Prompt displayed to the user. If not supplied name will be used.
+    type: 'string',                 														// Specify the type of input to expect.
+    default: './assets',             														// Default value to use if no value is entered.
+    required: true,                        											// If true, value entered must be non-empty.
+  };
 
-	prompt.get([filepathSettings], function (err, result) {
-		if (err) { return onErr(err); }
-		console.log('User chose file path:', result.filepath);
+  prompt.get([filepathSettings], function (err, result) {
+    if (err) { return onErr(err); }
+    console.log('User chose file path:', result.filepath);
 
-		printFileNameAndJSON(result.filepath).catch(console.error);
-	});
+    printFileNameAndJSON(result.filepath).catch(console.error);
+  });
 	
-	function onErr(err) {
-			console.log(err);
-			return 1;
-	}
+  function onErr(err) {
+    console.log(err);
+    return 1;
+  }
 }
 
 
 function getActualFileNameFromUserAndPrint() {
-	prompt.start();
+  prompt.start();
 	
-	const fileNameSettings =   {
-		name: 'filename',
-		description: 'Enter the file name (including path) to your Postman Collection',   // Prompt displayed to the user. If not supplied name will be used.
-		type: 'string',                 														// Specify the type of input to expect.
-		required: true,                        											// If true, value entered must be non-empty.
-	}
+  const fileNameSettings = {
+    name: 'filename',
+    description: 'Enter the file name (including path) to your Postman Collection',   // Prompt displayed to the user. If not supplied name will be used.
+    type: 'string',                 														// Specify the type of input to expect.
+    required: true,                        											// If true, value entered must be non-empty.
+  };
 
-	prompt.get([fileNameSettings], function (err, result) {
-		if (err) { return onErr(err); }
-		console.log('User chose file name:', result.filename);
+  prompt.get([fileNameSettings], function (err, result) {
+    if (err) { return onErr(err); }
+    console.log('User chose file name:', result.filename);
 
-		printJSONData(result.filename).catch(console.error);
-	});
+    printJSONData(result.filename).catch(console.error);
+  });
 	
-	function onErr(err) {
-			console.log(err);
-			return 1;
-	}
+  function onErr(err) {
+    console.log(err);
+    return 1;
+  }
 }
 
 function printJSONData(filepath) { // Templating function
-	let input = JSON.parse(fs.readFileSync(filepath));
+  let input = JSON.parse(fs.readFileSync(filepath));
 
-	console.log('Title:', input.info.name);
+  console.log('Title:', input.info.name);
 
-	for(let i = 0; i < input.item.length; i++) {
-		console.log('Route Name: ' + input.item[i].name);
-	}
+  for(let i = 0; i < input.item.length; i++) {
+    console.log('Route Name: ' + input.item[i].name);
+  }
 }
