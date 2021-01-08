@@ -32,8 +32,8 @@ describe('Postmark Routes', () => {
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  `;
+>- Key: lang  
+>- Value: en  `;
     //input1 does not contain a valid input1.item[0].request.url - will not be tested
     expect(urlTpl(input2.item[0].request.url)).toEqual(goodOutput);
   });
@@ -65,8 +65,8 @@ describe('Postmark Routes', () => {
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Authorization Type**: basic
 
@@ -119,8 +119,8 @@ describe('Postmark Routes', () => {
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -148,8 +148,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -197,8 +197,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -262,8 +262,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Authorization Type**: basic
 
@@ -292,8 +292,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -321,8 +321,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -370,8 +370,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -445,8 +445,8 @@ let goodEverything =
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Authorization Type**: basic
 
@@ -475,8 +475,8 @@ let goodEverything =
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -504,8 +504,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
@@ -553,8 +553,8 @@ Not Found
 
 ##### Parameter (Response language)
 
->- key: lang  
->- value: en  
+>- Key: lang  
+>- Value: en  
 
 #### **Header(s)**
 
