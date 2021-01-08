@@ -1,0 +1,30 @@
+{
+  "name": "do-postmark",
+  "version": "1.0.3",
+  "description": "A small Node.js program to convert Postman collections to Markdown friendly syntax.",
+  "main": "do-postmark.js",
+  "bin": "do-postmark.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamMocha/PostMark.git"
+  },
+  "keywords": [
+    "Postman",
+    "Markdown",
+    "README",
+    "conversion",
+    "JSON",
+    "collection"
+  ],
+  "author": "Team Mocha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TeamMocha/PostMark/issues"
+  },
+  "homepage": "https://github.com/TeamMocha/PostMark#readme"
+}

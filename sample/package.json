@@ -1,0 +1,15 @@
+{
+  "name": "mochasamples",
+  "version": "1.0.0",
+  "description": "Samples",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "author": "Team Mocha",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^26.6.3",
+    "prompt": "^1.1.0"
+  }
+}
