@@ -110,11 +110,11 @@ const urlQueryParamsTpl = (urlQueryArray) => {
     // (Add a space between lines)
     queryParamsTemplate += emptyLine;
     // Add the param 'key' string to the template (the two spaces at the end are necessary)
-    queryParamsTemplate += `>- key: ${urlQueryArray[i].key}  `;
+    queryParamsTemplate += `>- Key: ${urlQueryArray[i].key}  `;
     // (Add a new line between key/value pairs)
     queryParamsTemplate += newLine;
     // Add the param 'value' string to the template (the two spaces at the end are necessary)
-    queryParamsTemplate += `>- value: ${urlQueryArray[i].value}  `;
+    queryParamsTemplate += `>- Value: ${urlQueryArray[i].value}  `;
   }
   // Return the hostParams to the caller
   return queryParamsTemplate; // A template for all query parameters 
