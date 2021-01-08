@@ -1,19 +1,11 @@
 'use strict';
 
+const fs = require('fs');
+
 // Bringing in the Postman Collection (Move this to TOF before committing!)
 // Eventually we will merge this code with our working 'fs' and 'prompt' code
 let input;
 let filepath;
-const doPostMark = (filepathInput) => {
-  if(!filepathInput){
-    filepath = './assets/Just Okay.postman_collection.json';
-    input = require(filepath);
-  } else {
-    filepath = filepathInput;
-    input = require(filepath);
-  }
-  return everythingTpl(input);
-};
 
 // Setting variables for adding different kinds of line spacing in Markdown
 // These are set here to avoid odd indenting later.
@@ -344,5 +336,30 @@ const everythingTpl = (input) => {
   // Return the everythingTemplate to the caller
   return everythingTemplate;
 };
+
+
+const doPostMark = (filepathInput) => {
+  if(!filepathInput){
+    throw 'This file path is not valid!';
+  } else {
+    filepath = filepathInput;
+    input = require(filepath);
+  }
+  return everythingTpl(input);
+};
+// Take the file path the user gave and output doPostMark to the README.md
+if (process.argv[2]) {
+  let filepath = process.argv[2];
+  // Append data to a README.md file at the base of the project
+  let output = doPostMark(filepath);
+  try {
+    fs.appendFileSync('README.md', output);
+    console.log('File is updated.');
+  } catch (error) {
+    console.log(error);
+  }
+} else {
+  throw 'Use Postmark like: npm postmark ./assets/pathto.postman_collection.json';
+}
 
 module.exports =  { authTpl, urlHostNameStr, urlHostPathStr, urlQueryParamsTpl, urlTpl, requestTpl, headerTpl, responseTpl, routesTpl, everythingTpl, doPostMark };
