@@ -15,21 +15,21 @@ Tahmina Ringer - @tahminaringer
 
 ## Dependencies
 
-The package do-postmark does not have any external dependencies
+The package postmark-it does not have any external dependencies
 
 ## Install
 
 To install application:
 
-`npm install do-postmark`
+`npm install postmark-it`
 
 ## Usage
 
 To run application:
 
-`npm do-postmark <path-to-postman_collection.json>`
+`npm postmark-it <path-to-postman_collection.json>`
 
 ### Links and Resources
 
 - [View our Project on GitHub](https://github.com/TeamMocha/PostMark)
-- [View our Project on npmjs](https://www.npmjs.com/package/do-postmark)
+- [View our Project on npmjs](https://www.npmjs.com/package/postmark-it)
