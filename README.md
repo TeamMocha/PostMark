@@ -3,7 +3,7 @@ A small Node.js program to convert Postman collections to Markdown friendly synt
 
 Since documentation is incredibly important when hosting a project on GitHub we believe that this will help developers very easily show the routes used in their APIs. This should save the developer time, make using a project easier for users and improve readability of documentation.
 
-PostMark is now available as an installable NodeJS package (at https://www.npmjs.com/package/postmark-it) and is running as a serverless AWS Lambda function (at https://postmark.pixeljava.com/convert) that any user can pass a JSON-based Postman collection to and recieve back Markdown syntax. A site has been created to make the conversion process easier: https://postmarkui.herokuapp.com
+PostMark is now available as an installable NodeJS package (at https://www.npmjs.com/package/postmark-it) and is running as a serverless AWS Lambda function (at https://postmark.pixeljava.com/convert) that any user can pass a JSON-based Postman collection to and recieve back Markdown syntax. A site has been created to make the conversion process easier: https://postmark.netlify.app/
 
 ## Problem Domain: Auto-generating documentation for JSON.
 The app takes a Postman Collection JSON file as input and outputs the documentation template in .md format.
